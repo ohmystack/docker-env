@@ -1,0 +1,11 @@
+cadvisor:
+  image: google/cadvisor:v0.23.0
+  command: -logtostderr -v 0
+  ports:
+    - "28080:8080"
+  volumes:
+    - /:/rootfs:ro
+    - /var/run:/var/run:rw
+    - /sys:/sys:ro
+    - /var/lib/docker/:/var/lib/docker:ro
+  hostname: ${HOST_ID}

@@ -1,0 +1,49 @@
+mesosmaster:
+  image: mesosphere/mesos-master:0.28.0-2.0.16.ubuntu1404
+  net: "host"
+  environment:
+    - MESOS_CLUSTER=docker-mesos
+    - MESOS_HOSTNAME=${HOST_IP}
+    - MESOS_LOG_DIR=/var/log/mesos
+    - MESOS_PORT=5050
+    - MESOS_QUORUM=1
+    - MESOS_REGISTRY=in_memory
+    - MESOS_WORK_DIR=/tmp/mesos_master
+    - MESOS_ZK=${ZK_URI}/mesos
+  volumes:
+    - /tmp/mesos_master:/tmp/mesos_master
+
+mesosslave:
+  build: ../../images/mesosslave
+  net: "host"
+  pid: "host"
+  privileged: true
+  environment:
+    - MESOS_ATTRIBUTES=
+    - MESOS_CONTAINERIZERS=mesos,docker
+    - MESOS_DOCKER_KILL_ORPHANS=true
+    - MESOS_DOCKER_MESOS_IMAGE=${PROJECT_NAME}_mesosslave:latest
+    - MESOS_DOCKER_SOCKET=/var/run/docker.sock
+    - MESOS_DOCKER_STOP_TIMEOUT=10secs
+    - MESOS_EXECUTOR_REGISTRATION_TIMEOUT=5mins
+    - MESOS_HOSTNAME=${HOST_IP}
+    - MESOS_LOGGING_LEVEL=INFO
+    - MESOS_LOG_DIR=/var/log/mesos
+    - MESOS_MASTER=${ZK_URI}/mesos
+    - MESOS_PORT=5051
+    - MESOS_WORK_DIR=/tmp/mesos_slave
+  volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+    - /sys/fs/cgroup:/sys/fs/cgroup
+    - /tmp/mesos_slave:/tmp/mesos_slave
+
+marathon:
+  image: mesosphere/marathon:v1.0.0-RC1
+  net: "host"
+  environment:
+    - MARATHON_HOSTNAME=${HOST_IP}
+    - MARATHON_HTTP_PORT=18080
+    - MARATHON_LOGGING_LEVEL=warn
+    - MARATHON_MASTER=${ZK_URI}/mesos
+    - MARATHON_ZK=${ZK_URI}/marathon
+    - MARAthon_task_launch_timeout=300000 # In milliseconds, >= MESOS_EXECUTOR_REGISTRATION_TIMEOUT

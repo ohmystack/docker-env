@@ -1,0 +1,12 @@
+mysql:
+  image: mysql:5.6
+  environment:
+    MYSQL_ROOT_PASSWORD: yourpasswd
+    MYSQL_USER: stack
+    MYSQL_PASSWORD: yourpasswd
+    MYSQL_DATABASE: ${PROJECT_NAME}
+  ports:
+    - 3306:3306
+  volumes:
+    - /var/lib/mysql:/var/lib/mysql 
+

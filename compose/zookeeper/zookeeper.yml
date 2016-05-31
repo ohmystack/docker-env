@@ -1,0 +1,13 @@
+# zookeeper:
+#   image: jplock/zookeeper:3.4.7
+#   ports:
+#     - "2181:2181"
+#     - "2888:2888"
+#     - "3888:3888"
+
+# An exhibitor managed zookeeper (Better for developer on single node)
+zookeeper:
+  image: netflixoss/exhibitor:1.5.2
+  net: "host"
+  command: --port 8050
+  restart: always
