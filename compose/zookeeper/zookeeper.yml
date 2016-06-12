@@ -10,4 +10,4 @@ zookeeper:
   image: netflixoss/exhibitor:1.5.2
   net: "host"
   command: --port 8050
-  restart: always
+  restart: on-failure
