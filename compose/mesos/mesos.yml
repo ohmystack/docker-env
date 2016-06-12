@@ -38,7 +38,7 @@ mesosslave:
     - /tmp/mesos_slave:/tmp/mesos_slave
 
 marathon:
-  image: mesosphere/marathon:v1.0.0-RC1
+  image: mesosphere/marathon:v1.1.1
   net: "host"
   environment:
     - MARATHON_HOSTNAME=${HOST_IP}
