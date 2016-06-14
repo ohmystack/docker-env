@@ -24,7 +24,7 @@ c::restart() {
 }
 
 c::reconfig() {
-  c::stop && rm -f ${MESOS_SLAVE_WORK_DIR}/meta/slaves/latest && c::up
+  c::stop && rm -f /tmp/mesos_slave/meta/slaves/latest && c::up
 }
 
 c::stop() {
