@@ -46,20 +46,28 @@ c::logs() {
 while [ -n $1 ]; do
 	case $1 in
 		'up') c::up
+			break
 			;;
 		'start') c::start
+			break
 			;;
 		'restart') c::restart
+			break
 			;;
 		'reconfig') c::reconfig
+			break
 			;;
 		'stop') c::stop
+			break
 			;;
 		'kill') c::kill
+			break
 			;;
 		'rm') c::rm
+			break
 			;;
 		'logs') c::logs
+			break
 			;;
 		*)
 			print_usage
