@@ -5,11 +5,15 @@ Give you a pure and clean development environment out-of-the-box.
 
 ## Goal
 
-All you need is a `docker` and a `docker-compose`.
+- When you need a software/tool (MySQL, Mesos, ...), just run a command `up`.
 
 One-click, out-of-the-box, no more configuration is needed before using.
 
-**For quick development, NOT for production.**
+- When you want to try a newer version of a software, you just modify the Docker image's tag, and `up` again. It's done.
+
+No more need to change `apt/sources.list` or `yum.repos.d` and reinstall with unpredictable package conflicts.
+
+- For quick development, **NOT for production.**
 
 > It is a convenient toolbox for quickly building up your development environment.
 > 
@@ -31,7 +35,9 @@ One-click, out-of-the-box, no more configuration is needed before using.
 
 ## Usage
 
-Command patten is simple:
+> Please install `docker` and `docker-compose` first.
+
+Our Command patten is simple:
 
 ```
 sudo ./<tool-name>.sh [up|start|stop|kill|restart|rm|logs|...]
@@ -61,4 +67,4 @@ How can I know what port is used by a tool?
 
 How to change the prefix name of those containers?
 
-> edit `env.sh`
+> edit `env.sh`, change the `PROJECT_NAME`
