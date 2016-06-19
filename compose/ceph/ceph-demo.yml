@@ -2,7 +2,7 @@ cephdemo:
   image: ceph/demo:tag-build-master-jewel-ubuntu-14.04
   net: "host"
   environment:
-    - CLUSTER=ceph-demo
+    - CLUSTER=${CEPH_CLUSTER}
     - MON_NAME=${HOST_IP}
     - MON_IP=${HOST_IP}
     - RGW_NAME=${HOST_IP}

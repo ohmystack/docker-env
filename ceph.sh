@@ -2,6 +2,9 @@
 
 source env.sh
 
+# Ceph ENVs
+export CEPH_CLUSTER=ceph
+
 print_usage() {
 	cat <<-EOF
 	
@@ -16,7 +19,7 @@ print_usage() {
 
 uninstall_ceph_demo() {
 	rm -rf /var/lib/ceph/mon
-	ls /etc/ceph | grep ceph-demo | xargs -t -I '{}' rm -f /etc/ceph/'{}'
+	find /etc/ceph -name "${CEPH_CLUSTER}\.*" | xargs -t -I '{}' rm -f '{}'
 }
 
 c::up() {
