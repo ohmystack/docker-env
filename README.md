@@ -30,6 +30,7 @@ No more need to change `apt/sources.list` or `yum.repos.d` and reinstall with un
 - cAdvisor
 - Influxdb + Grafana + cAdvisor (Monitoring containers)
 - Kubernetes (AllInOne, NOTE: still in incubator)
+- [TensorFlow](https://www.tensorflow.org) (Machine Learning)
 - *(More tools are coming soon...)*
 
 
