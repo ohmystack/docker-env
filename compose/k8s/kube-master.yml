@@ -1,0 +1,56 @@
+kube-apiserver:
+  image: gcr.io/google_containers/kube-apiserver:v1.2.5
+  # privileged: true
+  net: "host"
+  command: >
+    /usr/local/bin/kube-apiserver
+    --etcd-servers=http://${HOST_IP}:4001
+    --etcd-servers-overrides=/events#http://${HOST_IP}:4002
+    --service-cluster-ip-range=${K8S_CLUSTER_CIDR}
+    --insecure-bind-address=0.0.0.0
+    --insecure-port=${K8S_APISERVER_PORT}
+    --v=2
+    --advertise-address=${HOST_IP}
+    --allow-privileged=true
+    2>&1
+  volumes:
+    - /srv/kubernetes:/srv/kubernetes
+    - /var/log/kube-apiserver.log:/var/log/kube-apiserver.log
+    - /etc/ssl:/etc/ssl
+    - /var/ssl:/var/ssl
+    - /etc/openssl:/etc/openssl
+    - /etc/pki:/etc/pki
+    - /srv/sshproxy:/srv/sshproxy
+
+kube-controller-manager:
+  image: gcr.io/google_containers/kube-controller-manager:v1.2.5
+  net: "host"
+  command: >
+    /usr/local/bin/kube-controller-manager
+    --master=${HOST_IP}:${K8S_APISERVER_PORT}
+    --cluster-name=k8s
+    --cluster-cidr=${K8S_CLUSTER_CIDR}
+    --allocate-node-cidrs=false
+    --port=10252
+    --terminated-pod-gc-threshold=10
+    --v=2
+    2>&1
+  volumes:
+    - /srv/kubernetes:/srv/kubernetes
+    - /var/log/kube-controller-manager.log:/var/log/kube-controller-manager.log
+    - /etc/ssl:/etc/ssl
+    - /var/ssl:/var/ssl
+    - /etc/openssl:/etc/openssl
+    - /etc/pki:/etc/pki
+
+kube-scheduler:
+  image: gcr.io/google_containers/kube-scheduler:v1.2.5
+  net: "host"
+  command: >
+    /usr/local/bin/kube-scheduler
+    --master=${HOST_IP}:${K8S_APISERVER_PORT}
+    --port=10251
+    --v=2
+    2>&1
+  volumes:
+    - /var/log/kube-scheduler.log:/var/log/kube-scheduler.log
