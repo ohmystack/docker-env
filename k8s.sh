@@ -11,13 +11,22 @@ print_usage() {
 	cat <<-EOF
 	
 	Usage:
-	sudo ./k8s up|start|restart|stop|kill|rm|logs
+	sudo ./k8s up|start|restart|stop|kill|rm|logs|first-run
+
+	Special Command Intro:
+	  first-run - Do some patch, please restart k8s after doing this
 
 	EOF
 }
 
 pre_run() {
 	mkdir -p /etc/kubernetes/manifests
+}
+
+# Run after api-server ready
+first_run() {
+	# Create the kube-system namespace
+	curl -H "Content-Type: application/json" -XPOST -d '{"apiVersion":"v1","kind":"Namespace","metadata":{"name":"kube-system"}}' "http://${HOST_IP}:${K8S_APISERVER_PORT}/api/v1/namespaces"
 }
 
 c::up() {
@@ -72,6 +81,10 @@ while [ -n $1 ]; do
 			break
 			;;
 		'logs') c::logs
+			break
+			;;
+		'first-run')
+			first_run
 			break
 			;;
 		*)
