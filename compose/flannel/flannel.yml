@@ -2,4 +2,8 @@ flannel:
   image: quay.io/coreos/flannel:0.5.5
   net: "host"
   privileged: true
-  command: /opt/bin/flanneld --ip-masq=true --iface=${LOCAL_NIC}
+  command: >
+    /opt/bin/flanneld
+    --ip-masq=true
+    --iface=${LOCAL_NIC}
+    --etcd-endpoints=http://${HOST_IP}:4001

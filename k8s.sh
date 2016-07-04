@@ -4,7 +4,7 @@ set -o errexit
 source env.sh
 
 # Kubernetes ENVs
-export K8S_APISERVER_PORT=8060
+export K8S_APISERVER_PORT=8080
 export K8S_CLUSTER_CIDR="10.3.0.0/16"
 
 print_usage() {
@@ -16,15 +16,22 @@ print_usage() {
 	EOF
 }
 
+pre_run() {
+	mkdir -p /etc/kubernetes/manifests
+}
+
 c::up() {
+	pre_run
 	docker-compose -p ${PROJECT_NAME} -f compose/k8s/kube-master.yml -f compose/k8s/kube-minion.yml up -d
 }
 
 c::start() {
+	pre_run
   docker-compose -p ${PROJECT_NAME} -f compose/k8s/kube-master.yml -f compose/k8s/kube-minion.yml start
 }
 
 c::restart() {
+	pre_run
   docker-compose -p ${PROJECT_NAME} -f compose/k8s/kube-master.yml -f compose/k8s/kube-minion.yml restart
 }
 

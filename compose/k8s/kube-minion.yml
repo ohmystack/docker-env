@@ -1,21 +1,26 @@
 kubelet:
-  image: gcr.io/google_containers/kubelet:v1.2.5
+  image: gcr.io/google_containers/hyperkube-amd64:v1.2.5
   privileged: true
   net: "host"
   pid: "host"
   command: >
-    /kubelet
-    --enable-debugging-handlers=true
+    /hyperkube kubelet
+    --containerized
+    --hostname-override=10.0.2.24
+    --api-servers=http://${HOST_IP}:8080
     --config=/etc/kubernetes/manifests
     --allow-privileged=true
-    --v=2
-    --root-dir=/var/lib/kubelet
-    --port=10250
+    --enable-debugging-handlers=true
     --hairpin-mode="promiscuous-bridge"
-    2>&1
+    --port=10250
+    --v=2
   volumes:
-    - /var/run:/var/run
-    - /srv/kubernetes:/srv/kubernetes
+    - /:/rootfs:ro
+    - /sys:/sys:rw
+    - /var/lib/docker:/var/lib/docker:rw
+    - /var/lib/kubelet/:/var/lib/kubelet:rw
+    # - /usr/bin/docker:/usr/bin/docker
+    - /var/run:/var/run:rw
     - /etc/kubernetes/manifests:/etc/kubernetes/manifests
 
 kube-proxy:
@@ -27,7 +32,6 @@ kube-proxy:
     kube-proxy
     --master=http://${HOST_IP}:${K8S_APISERVER_PORT}
     --v=5
-    2>&1
   volumes:
     - /var/run:/var/run
     - /var/log:/var/log

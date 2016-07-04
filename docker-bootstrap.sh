@@ -48,8 +48,8 @@ install_bootstrap() {
 
 start_bootstrap() {
 	start_daemon
-	docker-compose -H ${BOOTSTRAP_SOCK} -p ${PROJECT_NAME} -f compose/etcd/etcd.yml start
-	docker-compose -H ${BOOTSTRAP_SOCK} -p ${PROJECT_NAME} -f compose/flannel/flannel.yml start
+	docker-compose -H ${BOOTSTRAP_SOCK} -p ${PROJECT_NAME} -f compose/etcd/etcd.yml up -d
+	docker-compose -H ${BOOTSTRAP_SOCK} -p ${PROJECT_NAME} -f compose/flannel/flannel.yml up -d
 }
 
 stop_bootstrap() {

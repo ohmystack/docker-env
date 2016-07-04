@@ -8,3 +8,12 @@ etcd:
     --data-dir /var/etcd/data
   volumes:
     - /var/etcd/data:/var/etcd/data
+
+etcd-browser:
+  image: buddho/etcd-browser:latest
+  net: "host"   # This is not required, but we run this in bootstrap-docker,
+                # no bridge there, so we have to use "host"
+  environment:
+    - ETCD_HOST=${HOST_IP}
+    - ETCD_PORT=4001
+    - SERVER_PORT=8041
