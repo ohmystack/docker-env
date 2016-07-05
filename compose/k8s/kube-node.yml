@@ -5,13 +5,14 @@ kubelet:
   pid: "host"
   command: >
     /hyperkube kubelet
-    --containerized
-    --hostname-override=10.0.2.24
-    --api-servers=http://${HOST_IP}:8080
-    --config=/etc/kubernetes/manifests
     --allow-privileged=true
+    --api-servers=http://${HOST_IP}:8080
+    --cluster-dns=${K8S_DNS_SERVER_IP}
+    --config=/etc/kubernetes/manifests
+    --containerized
     --enable-debugging-handlers=true
     --hairpin-mode="promiscuous-bridge"
+    --hostname-override=10.0.2.24
     --port=10250
     --v=2
   volumes:

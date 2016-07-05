@@ -31,6 +31,7 @@ print_usage() {
 # -----------------
 start_daemon() {
 	if [ ! -f "${BOOTSTRAP_PID}" ]; then
+		echo " ... start bootstrap Docker daemon: ${BOOTSTRAP_PID}"
 		docker daemon -H ${BOOTSTRAP_SOCK} -p ${BOOTSTRAP_PID} --iptables=false --ip-masq=false --bridge=none --graph=/var/lib/docker-bootstrap 2>${BOOTSTRAP_LOG} 1>/dev/null &
 	fi
 }
@@ -39,9 +40,11 @@ install_bootstrap() {
 	# bootstap Docker daemon
 	start_daemon
 	# etcd
+	echo " ... start etcd: http://${HOST_IP}:4001"
 	docker-compose -H ${BOOTSTRAP_SOCK} -p ${PROJECT_NAME} -f compose/etcd/etcd.yml up -d
 	sleep 2 && curl -X PUT -d 'value={ "Network": "10.1.0.0/16" }' "http://${HOST_IP}:4001/v2/keys/coreos.com/network/config" | python -mjson.tool
 	# flannel
+	echo " ... start flannel"
 	docker-compose -H ${BOOTSTRAP_SOCK} -p ${PROJECT_NAME} -f compose/flannel/flannel.yml up -d
 	sleep 2 && flannel_net_env
 }
