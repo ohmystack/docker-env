@@ -1,19 +1,19 @@
 # docker-env
-Give you a pure and clean development environment out-of-the-box.
+Give you an **out-of-the-box** development environment.
 
 (Powered by [Docker](https://www.docker.com/))
 
 ## Goal
 
-- When you need a software/tool (MySQL, Mesos, ...), just run a command `up`.
+- Just `up`. When you need a software/tool (MySQL, ZooKeeper, ...), or **even a cloud (Mesos, Kubernetes)**, just run a command `up`.
 
-One-click, out-of-the-box, no more configuration is needed before using.
+Out-of-the-box, no more configuration is needed before using.
 
-- When you want to try a newer version of a software, you just modify the Docker image's tag, and `up` again. It's done.
+- Easy upgrade. You can just modify the Docker image's tag, and `up` again. It's done.
 
 No more need to change `apt/sources.list` or `yum.repos.d` and reinstall with unpredictable package conflicts.
 
-- For quick development, **NOT for production.**
+- Quick development, **NOT for production.**
 
 > It is a convenient toolbox for quickly building up your development environment.
 > 
@@ -22,16 +22,18 @@ No more need to change `apt/sources.list` or `yum.repos.d` and reinstall with un
 > This project's maintainer will provide some individual repos for running tools in production later.
 
 
-## Current Supported Tools
+## Current Added Tools
 
-- MySQL
-- Zookeeper
-- Mesos (Master + Slave) + Marathon
-- cAdvisor
-- Influxdb + Grafana + cAdvisor (Monitoring containers)
-- Kubernetes (AllInOne, NOTE: still in incubator)
+- [MySQL](https://www.mysql.com/)
+- [Zookeeper](https://zookeeper.apache.org/)
+- [Influxdb](https://influxdata.com/) + [Grafana](grafana.org/) + [cAdvisor](https://github.com/google/cadvisor) (Monitoring)
 - [TensorFlow](https://www.tensorflow.org) (Machine Learning)
 - *(More tools are coming soon...)*
+
+Clouds:
+
+- [Mesos](http://mesos.apache.org/) (Master + Slave) + [Marathon](https://mesosphere.github.io/marathon/)
+- [Kubernetes](http://kubernetes.io/)
 
 
 ## Usage
