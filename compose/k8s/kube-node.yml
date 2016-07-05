@@ -8,6 +8,7 @@ kubelet:
     --allow-privileged=true
     --api-servers=http://${HOST_IP}:8080
     --cluster-dns=${K8S_DNS_SERVER_IP}
+    --cluster-domain=${K8S_DNS_DOMAIN}
     --config=/etc/kubernetes/manifests
     --containerized
     --enable-debugging-handlers=true

@@ -70,24 +70,24 @@ kube-dashboard:
   ports:
     - 9090:9090
 
-# NOTE: If you want to use kube-dns cross the cluster, as the official docs,
+# NOTE: If you want to use kube-dns as the official docs says,
 # please use pod+service to deploy the kube-dns.
 # http://kubernetes.io/docs/getting-started-guides/docker-multinode/deployDNS/
 kube-dns:
   image: gcr.io/google_containers/kubedns-amd64:1.5
-  # net: host
+  net: host
   command: >
     --domain=${K8S_DNS_DOMAIN}
     --dns-port=10053
     --kube-master-url=http://${HOST_IP}:${K8S_APISERVER_PORT}
-  ports:
-    - 10053:10053/udp
-    - 10053:10053
 
 dnsmasq:
   image: gcr.io/google_containers/kube-dnsmasq-amd64:1.3
   net: host
   command: >
     --cache-size=1000
-    --no-resolv
-    --server=${K8S_DNS_SERVER_IP}#10053
+    --clear-on-reload
+    --log-facility=-
+    --log-queries
+    --max-cache-ttl=60
+    --server=/${K8S_DNS_DOMAIN}/${K8S_DNS_SERVER_IP}#10053
