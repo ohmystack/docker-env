@@ -7,19 +7,19 @@ Give you an **out-of-the-box** development environment.
 
 - Just `up`. When you need a software/tool (MySQL, ZooKeeper, ...), or **even a cloud (Mesos, Kubernetes)**, just run a command `up`.
 
-Out-of-the-box, no more configuration is needed before using.
+  > Out-of-the-box, no more configuration is needed before using.
 
 - Easy upgrade. You can just modify the Docker image's tag, and `up` again. It's done.
 
-No more need to change `apt/sources.list` or `yum.repos.d` and reinstall with unpredictable package conflicts.
+  > No more need to change `apt/sources.list` or `yum.repos.d` and reinstall with unpredictable package conflicts.
 
 - Quick development, **NOT for production.**
 
-> It is a convenient toolbox for quickly building up your development environment.
-> 
-> Production isn't this project's goal.
-> For example, Mesos needs more specific options for running in a production environment.
-> This project's maintainer will provide some individual repos for running tools in production later.
+  > It is a convenient toolbox for quickly building up your development environment.
+  > 
+  > Production isn't this project's goal.
+  > For example, Mesos needs more specific options for running in a production environment.
+  > This project's maintainer will provide some individual repos for running tools in production later.
 
 
 ## Current Added Tools
