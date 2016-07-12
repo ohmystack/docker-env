@@ -15,11 +15,11 @@ print_usage() {
 	sudo ./docker-bootstrap install|uninstall|on|off|net|...
 
 	Command Intro:
-		stop-daemon - Stop bootstrap Docker Daemon
 	  install - Run docker-bootstrap daemon, start etcd + flannel, config flannel
 	  net - Get the subnet settings from flannel
 	  off - Turn OFF the bootstrap suite (Stop all the components)
 	  on - Turn ON the bootstrap suite (Start all the components)
+	  stop-daemon - Stop bootstrap Docker Daemon
 	  uninstall - Uninstall all the components (etcd + flannel), stop the docker-bootstrap daemon
 
 	EOF
@@ -32,7 +32,15 @@ print_usage() {
 start_daemon() {
 	if [ ! -f "${BOOTSTRAP_PID}" ]; then
 		echo " ... start bootstrap Docker daemon: ${BOOTSTRAP_PID}"
-		docker daemon -H ${BOOTSTRAP_SOCK} -p ${BOOTSTRAP_PID} --iptables=false --ip-masq=false --bridge=none --graph=/var/lib/docker-bootstrap 2>${BOOTSTRAP_LOG} 1>/dev/null &
+		docker daemon \
+			-H ${BOOTSTRAP_SOCK} \
+			-p ${BOOTSTRAP_PID} \
+			--iptables=false \
+			--ip-masq=false \
+			--bridge=none \
+			--exec-root=/var/run/docker-bootstrap \
+			--graph=/var/lib/docker-bootstrap \
+			2>${BOOTSTRAP_LOG} 1>/dev/null &
 	fi
 }
 

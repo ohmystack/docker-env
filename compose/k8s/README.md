@@ -27,12 +27,34 @@ sudo ./docker-bootstrap.sh install
 
 Config Docker Daemon:
 
-> Modify:
-> 
-> * Systemd: `/usr/lib/systemd/system/docker.service`
-> * Upstart: `/etc/init/docker.conf`
+#### If you are using **systemd**
 
-Add `DOCKER_OPTS="--bip=10.1.88.1/24 --mtu=1472"` to systemd/upstart script.
+> Edit `/usr/lib/systemd/system/docker.service`
+
+Add the following line in `[Service]` block:
+
+```plain
+EnvironmentFile=-/run/flannel/subnet.env
+```
+
+Add parameters in `ExecStart`:
+
+```plain
+--bip=${FLANNEL_SUBNET} --mtu=${FLANNEL_MTU}
+```
+
+Restart Docker service.
+
+#### If you are using **Upstart**
+
+> Edit: `/etc/init/docker.conf`
+
+Find the `script` block, which has `exec "$DOCKER" daemon $DOCKER_OPTS --raw-logs`, add/modify the following lines in that block:
+
+```plain
+	. /run/flannel/subnet.env
+	DOCKER_OPTS="--bip=${FLANNEL_SUBNET} --mtu=${FLANNEL_MTU}"
+```
 
 Restart Docker service.
 
