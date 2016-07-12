@@ -33,7 +33,7 @@ Give you an **out-of-the-box** development environment.
 Clouds:
 
 - [Mesos](http://mesos.apache.org/) (Master + Slave) + [Marathon](https://mesosphere.github.io/marathon/)
-- [Kubernetes](http://kubernetes.io/)
+- [Kubernetes](http://kubernetes.io/) (Please read this [little guide](compose/k8s/README.md))
 
 
 ## Usage
