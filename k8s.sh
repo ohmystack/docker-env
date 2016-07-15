@@ -4,6 +4,7 @@ set -o errexit
 source env.sh
 
 # Kubernetes ENVs
+export K8S_APISERVER_IP=${HOST_IP}
 export K8S_APISERVER_PORT=8080
 export K8S_CLUSTER_CIDR="10.3.0.0/16"
 # K8S_DNS_SERVER_IP should be the IP of the host who is running the kube-dns and dnsmasq

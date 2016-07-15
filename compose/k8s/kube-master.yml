@@ -1,10 +1,10 @@
 kube-apiserver:
-  image: gcr.io/google_containers/kube-apiserver:v1.2.5
+  image: gcr.io/google_containers/hyperkube-amd64:v1.3.0
   privileged: true
   pid: host
   net: host
   command: >
-    /usr/local/bin/kube-apiserver
+    /hyperkube apiserver
     --etcd-servers=http://${HOST_IP}:4001
     --service-cluster-ip-range=${K8S_CLUSTER_CIDR}
     --insecure-bind-address=0.0.0.0
@@ -22,12 +22,12 @@ kube-apiserver:
     - /srv/sshproxy:/srv/sshproxy
 
 kube-controller-manager:
-  image: gcr.io/google_containers/kube-controller-manager:v1.2.5
+  image: gcr.io/google_containers/hyperkube-amd64:v1.3.0
   privileged: true
   pid: host
   net: host
   command: >
-    /usr/local/bin/kube-controller-manager
+    /hyperkube controller-manager
     --master=http://${HOST_IP}:${K8S_APISERVER_PORT}
     --cluster-name=k8s
     --cluster-cidr=${K8S_CLUSTER_CIDR}
@@ -44,12 +44,12 @@ kube-controller-manager:
     - /etc/pki:/etc/pki
 
 kube-scheduler:
-  image: gcr.io/google_containers/kube-scheduler:v1.2.5
+  image: gcr.io/google_containers/hyperkube-amd64:v1.3.0
   privileged: true
   pid: host
   net: host
   command: >
-    /usr/local/bin/kube-scheduler
+    /hyperkube scheduler
     --master=http://${HOST_IP}:${K8S_APISERVER_PORT}
     --port=10251
     --v=2
@@ -67,8 +67,11 @@ kube-dashboard:
   command: >
     --apiserver-host=http://${HOST_IP}:${K8S_APISERVER_PORT}
     --port=9090
+    --heapster-host=http://heapster:8082
   ports:
     - 9090:9090
+  links:
+    - heapster
 
 # NOTE: If you want to use kube-dns as the official docs says,
 # please use pod+service to deploy the kube-dns.
@@ -91,3 +94,17 @@ dnsmasq:
     --log-queries
     --max-cache-ttl=60
     --server=/${K8S_DNS_DOMAIN}/${K8S_DNS_SERVER_IP}#10053
+
+# Heapster source configuration:
+# https://github.com/kubernetes/heapster/blob/master/docs/source-configuration.md
+# Heapster sink configuration:
+# https://github.com/kubernetes/heapster/blob/master/docs/sink-configuration.md
+# e.g.
+# --sink=influxdb:<INFLUXDB_URL>[?<INFLUXDB_OPTIONS>]
+# INFLUXDB_OPTIONS: user, pw, db, secure
+heapster:
+  image: gcr.io/google_containers/heapster:v1.1.0
+  ports:
+    - 8082:8082
+  command: >
+    --source=kubernetes.summary_api:http://${K8S_APISERVER_IP}:${K8S_APISERVER_PORT}?inClusterConfig=false&kubeletPort=10255

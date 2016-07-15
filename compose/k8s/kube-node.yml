@@ -1,5 +1,5 @@
 kubelet:
-  image: gcr.io/google_containers/hyperkube-amd64:v1.2.5
+  image: gcr.io/google_containers/hyperkube-amd64:v1.3.0
   privileged: true
   net: "host"
   pid: "host"
@@ -15,23 +15,25 @@ kubelet:
     --hairpin-mode="promiscuous-bridge"
     --hostname-override=10.0.2.24
     --port=10250
-    --v=2
+    --read-only-port=10255
+    --v=4
   volumes:
     - /:/rootfs:ro
+    - /var/run:/var/run:rw
     - /sys:/sys:rw
-    - /var/lib/docker:/var/lib/docker:rw
+    - /var/lib/docker/:/var/lib/docker:rw
     - /var/lib/kubelet/:/var/lib/kubelet:rw
     # - /usr/bin/docker:/usr/bin/docker
-    - /var/run:/var/run:rw
     - /etc/kubernetes/manifests:/etc/kubernetes/manifests
+    - /home/stack/Dev/go-workspace/src/github.com/google/cadvisor:/cadvisor
 
 kube-proxy:
-  image: gcr.io/google_containers/kube-proxy:v1.2.5
+  image: gcr.io/google_containers/hyperkube-amd64:v1.3.0
   privileged: true
   net: "host"
   pid: "host"
   command: >
-    kube-proxy
+    /hyperkube proxy
     --master=http://${HOST_IP}:${K8S_APISERVER_PORT}
     --v=5
   volumes:
