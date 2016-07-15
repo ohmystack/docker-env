@@ -28,7 +28,7 @@ kube-controller-manager:
   net: host
   command: >
     /hyperkube controller-manager
-    --master=http://${HOST_IP}:${K8S_APISERVER_PORT}
+    --master=http://${K8S_APISERVER_IP}:${K8S_APISERVER_PORT}
     --cluster-name=k8s
     --cluster-cidr=${K8S_CLUSTER_CIDR}
     --allocate-node-cidrs=false
@@ -50,7 +50,7 @@ kube-scheduler:
   net: host
   command: >
     /hyperkube scheduler
-    --master=http://${HOST_IP}:${K8S_APISERVER_PORT}
+    --master=http://${K8S_APISERVER_IP}:${K8S_APISERVER_PORT}
     --port=10251
     --v=2
   volumes:
@@ -65,7 +65,7 @@ kube-scheduler:
 kube-dashboard:
   image: gcr.io/google_containers/kubernetes-dashboard-amd64:v1.1.0
   command: >
-    --apiserver-host=http://${HOST_IP}:${K8S_APISERVER_PORT}
+    --apiserver-host=http://${K8S_APISERVER_IP}:${K8S_APISERVER_PORT}
     --port=9090
     --heapster-host=http://heapster:8082
   ports:
@@ -82,7 +82,7 @@ kube-dns:
   command: >
     --domain=${K8S_DNS_DOMAIN}
     --dns-port=10053
-    --kube-master-url=http://${HOST_IP}:${K8S_APISERVER_PORT}
+    --kube-master-url=http://${K8S_APISERVER_IP}:${K8S_APISERVER_PORT}
 
 dnsmasq:
   image: gcr.io/google_containers/kube-dnsmasq-amd64:1.3

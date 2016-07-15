@@ -6,7 +6,7 @@ kubelet:
   command: >
     /hyperkube kubelet
     --allow-privileged=true
-    --api-servers=http://${HOST_IP}:8080
+    --api-servers=http://${K8S_APISERVER_IP}:${K8S_APISERVER_PORT}
     --cluster-dns=${K8S_DNS_SERVER_IP}
     --cluster-domain=${K8S_DNS_DOMAIN}
     --config=/etc/kubernetes/manifests
@@ -34,7 +34,7 @@ kube-proxy:
   pid: "host"
   command: >
     /hyperkube proxy
-    --master=http://${HOST_IP}:${K8S_APISERVER_PORT}
+    --master=http://${K8S_APISERVER_IP}:${K8S_APISERVER_PORT}
     --v=5
   volumes:
     - /var/run:/var/run
