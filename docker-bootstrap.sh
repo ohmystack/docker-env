@@ -101,6 +101,7 @@ if [ -n $1 ]; then
 			;;
 		'on')
 			start_bootstrap
+			flannel_net_env
 			;;
 		'off')
 			stop_bootstrap
