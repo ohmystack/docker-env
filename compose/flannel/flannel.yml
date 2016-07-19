@@ -9,3 +9,4 @@ flannel:
     --etcd-endpoints=http://${HOST_IP}:4001
   volumes:
     - /run/flannel:/run/flannel
+    - /lib/modules:/lib/modules
