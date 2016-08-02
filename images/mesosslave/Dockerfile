@@ -1,4 +1,4 @@
-FROM mesosphere/mesos-slave:0.28.0-2.0.16.ubuntu1404
+FROM mesosphere/mesos-slave:1.0.0-2.0.89.ubuntu1404
 MAINTAINER ohmystack <jiangjun1990@gmail.com>
 LABEL description="Mesos Slave for running docker client"
 
