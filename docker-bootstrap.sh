@@ -32,7 +32,7 @@ print_usage() {
 start_daemon() {
 	if [ ! -f "${BOOTSTRAP_PID}" ]; then
 		echo " ... start bootstrap Docker daemon: ${BOOTSTRAP_PID}"
-		docker daemon \
+		dockerd \
 			-H ${BOOTSTRAP_SOCK} \
 			-p ${BOOTSTRAP_PID} \
 			--iptables=false \
