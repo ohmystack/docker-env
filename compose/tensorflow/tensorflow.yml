@@ -1,5 +1,5 @@
 tensorflow:
-  image: tensorflow/tensorflow:r0.9
+  image: tensorflow/tensorflow:0.10.0
   ports:
     - 6006:6006
     - 8888:8888
