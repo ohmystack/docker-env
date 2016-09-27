@@ -28,6 +28,7 @@ Give you an **out-of-the-box** development environment.
 - [Zookeeper](https://zookeeper.apache.org/)
 - [Influxdb](https://influxdata.com/) + [Grafana](grafana.org/) + [cAdvisor](https://github.com/google/cadvisor) (Monitoring)
 - [TensorFlow](https://www.tensorflow.org) (Machine Learning)
+- [Ceph](http://ceph.com/)
 - *(More tools are coming soon...)*
 
 Clouds:
