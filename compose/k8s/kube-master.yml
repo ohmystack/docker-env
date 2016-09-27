@@ -63,7 +63,7 @@ kube-scheduler:
     # - /etc/kubernetes:/etc/kubernetes
 
 kube-dashboard:
-  image: gcr.io/google_containers/kubernetes-dashboard-amd64:v1.1.0
+  image: gcr.io/google_containers/kubernetes-dashboard-amd64:v1.4.0
   command: >
     --apiserver-host=http://${K8S_APISERVER_IP}:${K8S_APISERVER_PORT}
     --port=9090
