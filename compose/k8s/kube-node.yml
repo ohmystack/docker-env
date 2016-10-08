@@ -16,7 +16,7 @@ kubelet:
     --hostname-override=10.0.2.24
     --port=10250
     --read-only-port=10255
-    --v=4
+    --v=0
   volumes:
     - /:/rootfs:ro
     - /var/run:/var/run:rw
@@ -35,7 +35,7 @@ kube-proxy:
   command: >
     /hyperkube proxy
     --master=http://${K8S_APISERVER_IP}:${K8S_APISERVER_PORT}
-    --v=5
+    --v=0
   volumes:
     - /var/run:/var/run
     - /var/log:/var/log

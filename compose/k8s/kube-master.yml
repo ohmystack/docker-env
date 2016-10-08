@@ -9,7 +9,7 @@ kube-apiserver:
     --service-cluster-ip-range=${K8S_CLUSTER_CIDR}
     --insecure-bind-address=0.0.0.0
     --insecure-port=${K8S_APISERVER_PORT}
-    --v=2
+    --v=0
     --advertise-address=${HOST_IP}
     --allow-privileged=true
   volumes:
@@ -34,7 +34,7 @@ kube-controller-manager:
     --allocate-node-cidrs=false
     --port=10252
     --terminated-pod-gc-threshold=10
-    --v=2
+    --v=0
   volumes:
     - /srv/kubernetes:/srv/kubernetes
     - /var/log/kube-controller-manager.log:/var/log/kube-controller-manager.log
@@ -52,7 +52,7 @@ kube-scheduler:
     /hyperkube scheduler
     --master=http://${K8S_APISERVER_IP}:${K8S_APISERVER_PORT}
     --port=10251
-    --v=2
+    --v=0
   volumes:
     - /var/log/kube-scheduler.log:/var/log/kube-scheduler.log
 
