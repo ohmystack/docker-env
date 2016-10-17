@@ -11,6 +11,8 @@ etcd:
 
 etcd-browser:
   image: buddho/etcd-browser:latest
+  # image BUG: if browser says 'Request failed - - http://127.0.0.1:4001/v2/keys/'
+  # Try to open the browser in "incognito" mode
   net: "host"   # This is not required, but we run this in bootstrap-docker,
                 # no bridge there, so we have to use "host"
   environment:

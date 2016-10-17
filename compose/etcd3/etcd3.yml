@@ -1,0 +1,23 @@
+etcd3:
+  image: quay.io/coreos/etcd:v3.0.12
+  command: >
+    etcd
+    --listen-client-urls http://0.0.0.0:4003
+    --advertise-client-urls http://${HOST_IP}:4003
+    --data-dir /var/etcd3/data
+    --proxy 'on'
+  ports:
+    - 4003:4003
+  volumes:
+    - /var/etcd3/data:/var/etcd3/data
+
+etcd3-browser:
+  image: buddho/etcd-browser:latest
+  # image BUG: if browser says 'Request failed - - http://127.0.0.1:4001/v2/keys/'
+  # Try to open the browser in "incognito" mode
+  ports:
+    - 8043:8043
+  environment:
+    - ETCD_HOST=${HOST_IP}
+    - ETCD_PORT=4003
+    - SERVER_PORT=8043
