@@ -1,5 +1,5 @@
 cadvisor:
-  image: google/cadvisor:v0.23.0
+  image: google/cadvisor:v0.24.1
   command: -logtostderr -v 0
   ports:
     - "28080:8080"
