@@ -2,7 +2,7 @@
 
 ## Requirement
 
-You need to install some package to get kernel support for NFS.
+You need to install some packages to get kernel support for NFS.
 
 ```bash
 # For Ubuntu
