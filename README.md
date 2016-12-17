@@ -29,6 +29,7 @@ Give you an **out-of-the-box** development environment.
 - [Influxdb](https://influxdata.com/) + [Grafana](grafana.org/) + [cAdvisor](https://github.com/google/cadvisor) (Monitoring)
 - [TensorFlow](https://www.tensorflow.org) (Machine Learning)
 - [Ceph](http://ceph.com/)
+- [NFS](http://www.tldp.org/LDP/nag/node140.html)
 - *(More tools are coming soon...)*
 
 Clouds:

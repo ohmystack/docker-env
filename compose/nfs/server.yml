@@ -1,0 +1,8 @@
+nfsserver:
+  image: cpuguy83/nfs-server:latest
+  net: "host"
+  privileged: true
+  command: ${NFS_SHARE_DIR}
+  volumes:
+    - ${NFS_SHARE_DIR}:${NFS_SHARE_DIR}
+    - ./services:/etc/services
