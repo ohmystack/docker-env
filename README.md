@@ -22,20 +22,20 @@ Give you an **out-of-the-box** development environment.
   > This project's maintainer will provide some individual repos for running tools in production later.
 
 
-## Current Added Tools
+## Current Available Tools
 
 - [MySQL](https://www.mysql.com/)
 - [Zookeeper](https://zookeeper.apache.org/)
 - [Influxdb](https://influxdata.com/) + [Grafana](grafana.org/) + [cAdvisor](https://github.com/google/cadvisor) (Monitoring)
 - [TensorFlow](https://www.tensorflow.org) (Machine Learning)
 - [Ceph](http://ceph.com/)
-- [NFS](http://www.tldp.org/LDP/nag/node140.html) ([Guide](compose/nfs/README.md))
+- [NFS](http://www.tldp.org/LDP/nag/node140.html) (Please read this [guide](compose/nfs/README.md))
 - *(More tools are coming soon...)*
 
 Clouds:
 
 - [Mesos](http://mesos.apache.org/) (Master + Slave) + [Marathon](https://mesosphere.github.io/marathon/)
-- [Kubernetes](http://kubernetes.io/) (Please read this [little guide](compose/k8s/README.md))
+- [Kubernetes](http://kubernetes.io/) (Please read this [guide](compose/k8s/README.md))
 
 
 ## Usage
