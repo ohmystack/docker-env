@@ -8,5 +8,7 @@ flannel:
     --iface=${LOCAL_NIC}
     --etcd-endpoints=http://${HOST_IP}:4001
   volumes:
-    - /run/flannel:/run/flannel
+    # Use /var/lib/flannel, not /run, to mount because /run is a tmpfs on Ubuntu.
+    # We don't want to lose data after rebooting.
+    - /var/lib/flannel:/run/flannel
     - /lib/modules:/lib/modules
