@@ -5,4 +5,4 @@ nfsserver:
   command: ${NFS_SHARE_DIR}
   volumes:
     - ${NFS_SHARE_DIR}:${NFS_SHARE_DIR}
-    - ./services:/etc/services
+    - /etc/services:/etc/services
