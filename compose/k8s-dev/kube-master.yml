@@ -1,0 +1,108 @@
+kube-apiserver:
+  image: gcr.io/google_containers/hyperkube-amd64:v1.3.0
+  privileged: true
+  pid: host
+  net: host
+  command: >
+    /kube-apiserver
+    --address=0.0.0.0
+    --insecure-bind-address=0.0.0.0
+    --service-cluster-ip-range=${K8S_CLUSTER_CIDR}
+    --etcd-servers=http://${HOST_IP}:4003
+    --insecure-port=${K8S_APISERVER_PORT}
+    --v=4
+    --advertise-address=${HOST_IP}
+    --allow-privileged=true
+  volumes:
+    - ./bin/kube-apiserver:/kube-apiserver
+    - /srv/kubernetes:/srv/kubernetes
+    - /var/log/kube-apiserver.log:/var/log/kube-apiserver.log
+    - /etc/ssl:/etc/ssl
+    - /var/ssl:/var/ssl
+    - /etc/openssl:/etc/openssl
+    - /etc/pki:/etc/pki
+    - /srv/sshproxy:/srv/sshproxy
+
+kube-controller-manager:
+  image: gcr.io/google_containers/hyperkube-amd64:v1.3.0
+  privileged: true
+  pid: host
+  net: host
+  command: >
+    /hyperkube controller-manager
+    --master=http://${K8S_APISERVER_IP}:${K8S_APISERVER_PORT}
+    --cluster-name=k8s
+    --cluster-cidr=${K8S_CLUSTER_CIDR}
+    --allocate-node-cidrs=false
+    --port=10252
+    --terminated-pod-gc-threshold=10
+    --v=0
+  volumes:
+    - ./bin/hyperkube:/hyperkube
+    - /srv/kubernetes:/srv/kubernetes
+    - /var/log/kube-controller-manager.log:/var/log/kube-controller-manager.log
+    - /etc/ssl:/etc/ssl
+    - /var/ssl:/var/ssl
+    - /etc/openssl:/etc/openssl
+    - /etc/pki:/etc/pki
+
+kube-scheduler:
+  image: gcr.io/google_containers/hyperkube-amd64:v1.3.0
+  privileged: true
+  pid: host
+  net: host
+  command: >
+    /hyperkube scheduler
+    --master=http://${K8S_APISERVER_IP}:${K8S_APISERVER_PORT}
+    --port=10251
+    --v=0
+  volumes:
+    - ./bin/hyperkube:/hyperkube
+    - /var/log/kube-scheduler.log:/var/log/kube-scheduler.log
+
+kube-dashboard:
+  image: gcr.io/google_containers/kubernetes-dashboard-amd64:v1.5.1
+  command: >
+    --apiserver-host=http://${K8S_APISERVER_IP}:${K8S_APISERVER_PORT}
+    --port=9090
+    --heapster-host=http://heapster:8082
+  ports:
+    - 9090:9090
+  links:
+    - heapster
+
+# NOTE: If you want to use kube-dns as the official docs says,
+# please use pod+service to deploy the kube-dns.
+# http://kubernetes.io/docs/getting-started-guides/docker-multinode/deployDNS/
+kube-dns:
+  image: gcr.io/google_containers/kubedns-amd64:1.9
+  net: host
+  command: >
+    --domain=${K8S_DNS_DOMAIN}
+    --dns-port=10053
+    --kube-master-url=http://${K8S_APISERVER_IP}:${K8S_APISERVER_PORT}
+
+dnsmasq:
+  image: gcr.io/google_containers/kube-dnsmasq-amd64:1.4
+  net: host
+  command: >
+    --cache-size=1000
+    --clear-on-reload
+    --log-facility=-
+    --log-queries
+    --max-cache-ttl=60
+    --server=/${K8S_DNS_DOMAIN}/${K8S_DNS_SERVER_IP}#10053
+
+# Heapster source configuration:
+# https://github.com/kubernetes/heapster/blob/master/docs/source-configuration.md
+# Heapster sink configuration:
+# https://github.com/kubernetes/heapster/blob/master/docs/sink-configuration.md
+# e.g.
+# --sink=influxdb:<INFLUXDB_URL>[?<INFLUXDB_OPTIONS>]
+# INFLUXDB_OPTIONS: user, pw, db, secure
+heapster:
+  image: gcr.io/google_containers/heapster-amd64:v1.3.0-beta.1
+  ports:
+    - 8082:8082
+  command: >
+    --source=kubernetes.summary_api:http://${K8S_APISERVER_IP}:${K8S_APISERVER_PORT}?inClusterConfig=false&kubeletPort=10255

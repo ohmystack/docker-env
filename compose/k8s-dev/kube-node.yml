@@ -1,0 +1,44 @@
+kubelet:
+  image: gcr.io/google_containers/hyperkube-amd64:v1.3.0
+  privileged: true
+  net: "host"
+  pid: "host"
+  command: >
+    /hyperkube kubelet
+    --allow-privileged=true
+    --api-servers=http://${K8S_APISERVER_IP}:${K8S_APISERVER_PORT}
+    --cluster-dns=${K8S_DNS_SERVER_IP}
+    --cluster-domain=${K8S_DNS_DOMAIN}
+    --pod-manifest-path=/etc/kubernetes/manifests
+    --containerized
+    --enable-debugging-handlers=true
+    --hairpin-mode="promiscuous-bridge"
+    --hostname-override=10.0.2.24
+    --port=10250
+    --read-only-port=10255
+    --v=0
+  volumes:
+    - ./bin/hyperkube:/hyperkube
+    - /:/rootfs:ro
+    - /var/run:/var/run:rw
+    - /sys:/sys:rw
+    - /var/lib/docker/:/var/lib/docker:rw
+    - /var/lib/dockershim/sandbox:/var/lib/dockershim/sandbox:rw
+    - /var/lib/kubelet/:/var/lib/kubelet:rw
+    - /etc/kubernetes/manifests:/etc/kubernetes/manifests
+    - /home/stack/Dev/go-workspace/src/github.com/google/cadvisor:/cadvisor
+
+kube-proxy:
+  image: gcr.io/google_containers/hyperkube-amd64:v1.3.0
+  privileged: true
+  net: "host"
+  pid: "host"
+  command: >
+    /hyperkube proxy
+    --master=http://${K8S_APISERVER_IP}:${K8S_APISERVER_PORT}
+    --v=0
+  volumes:
+    - ./bin/hyperkube:/hyperkube
+    - /var/run:/var/run
+    - /var/log:/var/log
+    - /usr/share/ca-certificates:/etc/ssl/certs
