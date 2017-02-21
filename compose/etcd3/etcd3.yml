@@ -10,14 +10,3 @@ etcd3:
     - 4003:4003
   volumes:
     - /var/etcd3/data:/var/etcd3/data
-
-etcd3-browser:
-  image: buddho/etcd-browser:latest
-  # image BUG: if browser says 'Request failed - - http://127.0.0.1:4001/v2/keys/'
-  # Try to open the browser in "incognito" mode
-  ports:
-    - 8043:8043
-  environment:
-    - ETCD_HOST=${HOST_IP}
-    - ETCD_PORT=4003
-    - SERVER_PORT=8043
