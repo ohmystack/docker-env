@@ -41,7 +41,7 @@ Clouds:
 
 ## Usage
 
-> Please install `docker` and `docker-compose` first.
+Install `docker` and `docker-compose` first.
 
 Our Command patten is simple:
 
