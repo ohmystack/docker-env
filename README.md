@@ -25,6 +25,7 @@ Give you an **out-of-the-box** development environment.
 ## Current Available Tools
 
 - [MySQL](https://www.mysql.com/)
+- [etcd & etcd3](https://coreos.com/etcd/)
 - [Zookeeper](https://zookeeper.apache.org/)
 - [Influxdb](https://influxdata.com/) + [Grafana](grafana.org/) + [cAdvisor](https://github.com/google/cadvisor) (Monitoring)
 - [TensorFlow](https://www.tensorflow.org) (Machine Learning)
