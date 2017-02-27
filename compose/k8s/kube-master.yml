@@ -1,14 +1,15 @@
 kube-apiserver:
-  image: gcr.io/google_containers/hyperkube-amd64:v1.3.0
+  image: gcr.io/google_containers/hyperkube-amd64:v1.5.1
   privileged: true
   pid: host
   net: host
   command: >
     /hyperkube apiserver
-    --etcd-servers=http://${HOST_IP}:4001
-    --service-cluster-ip-range=${K8S_CLUSTER_CIDR}
+    --address=0.0.0.0
     --insecure-bind-address=0.0.0.0
     --insecure-port=${K8S_APISERVER_PORT}
+    --etcd-servers=http://${HOST_IP}:4003
+    --service-cluster-ip-range=${K8S_CLUSTER_CIDR}
     --v=0
     --advertise-address=${HOST_IP}
     --allow-privileged=true
@@ -22,7 +23,7 @@ kube-apiserver:
     - /srv/sshproxy:/srv/sshproxy
 
 kube-controller-manager:
-  image: gcr.io/google_containers/hyperkube-amd64:v1.3.0
+  image: gcr.io/google_containers/hyperkube-amd64:v1.5.1
   privileged: true
   pid: host
   net: host
@@ -44,7 +45,7 @@ kube-controller-manager:
     - /etc/pki:/etc/pki
 
 kube-scheduler:
-  image: gcr.io/google_containers/hyperkube-amd64:v1.3.0
+  image: gcr.io/google_containers/hyperkube-amd64:v1.5.1
   privileged: true
   pid: host
   net: host
@@ -56,14 +57,8 @@ kube-scheduler:
   volumes:
     - /var/log/kube-scheduler.log:/var/log/kube-scheduler.log
 
-# kube-addon-manager:
-  # image: gcr.io/google-containers/kube-addon-manager:v5
-  # net: "host"
-  # volumes:
-    # - /etc/kubernetes:/etc/kubernetes
-
 kube-dashboard:
-  image: gcr.io/google_containers/kubernetes-dashboard-amd64:v1.4.0
+  image: gcr.io/google_containers/kubernetes-dashboard-amd64:v1.5.1
   command: >
     --apiserver-host=http://${K8S_APISERVER_IP}:${K8S_APISERVER_PORT}
     --port=9090
@@ -77,7 +72,7 @@ kube-dashboard:
 # please use pod+service to deploy the kube-dns.
 # http://kubernetes.io/docs/getting-started-guides/docker-multinode/deployDNS/
 kube-dns:
-  image: gcr.io/google_containers/kubedns-amd64:1.5
+  image: gcr.io/google_containers/kubedns-amd64:1.9
   net: host
   command: >
     --domain=${K8S_DNS_DOMAIN}
@@ -85,7 +80,7 @@ kube-dns:
     --kube-master-url=http://${K8S_APISERVER_IP}:${K8S_APISERVER_PORT}
 
 dnsmasq:
-  image: gcr.io/google_containers/kube-dnsmasq-amd64:1.3
+  image: gcr.io/google_containers/kube-dnsmasq-amd64:1.4
   net: host
   command: >
     --cache-size=1000
@@ -103,7 +98,7 @@ dnsmasq:
 # --sink=influxdb:<INFLUXDB_URL>[?<INFLUXDB_OPTIONS>]
 # INFLUXDB_OPTIONS: user, pw, db, secure
 heapster:
-  image: gcr.io/google_containers/heapster:v1.1.0
+  image: gcr.io/google_containers/heapster-amd64:v1.3.0-beta.1
   ports:
     - 8082:8082
   command: >

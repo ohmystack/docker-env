@@ -1,5 +1,5 @@
 kubelet:
-  image: gcr.io/google_containers/hyperkube-amd64:v1.3.0
+  image: gcr.io/google_containers/hyperkube-amd64:v1.5.1
   privileged: true
   net: "host"
   pid: "host"
@@ -9,11 +9,11 @@ kubelet:
     --api-servers=http://${K8S_APISERVER_IP}:${K8S_APISERVER_PORT}
     --cluster-dns=${K8S_DNS_SERVER_IP}
     --cluster-domain=${K8S_DNS_DOMAIN}
-    --config=/etc/kubernetes/manifests
+    --pod-manifest-path=/etc/kubernetes/manifests
     --containerized
     --enable-debugging-handlers=true
     --hairpin-mode="promiscuous-bridge"
-    --hostname-override=10.0.2.24
+    --hostname-override=${HOST_IP}
     --port=10250
     --read-only-port=10255
     --v=0
@@ -25,10 +25,9 @@ kubelet:
     - /var/lib/kubelet/:/var/lib/kubelet:rw
     # - /usr/bin/docker:/usr/bin/docker
     - /etc/kubernetes/manifests:/etc/kubernetes/manifests
-    - /home/stack/Dev/go-workspace/src/github.com/google/cadvisor:/cadvisor
 
 kube-proxy:
-  image: gcr.io/google_containers/hyperkube-amd64:v1.3.0
+  image: gcr.io/google_containers/hyperkube-amd64:v1.5.1
   privileged: true
   net: "host"
   pid: "host"
