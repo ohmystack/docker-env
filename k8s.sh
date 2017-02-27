@@ -24,6 +24,7 @@ print_usage() {
 }
 
 pre_run() {
+	./etcd3.sh up
 	mkdir -p /etc/kubernetes/manifests
 }
 
