@@ -26,7 +26,6 @@ kubelet:
     - /var/lib/dockershim/sandbox:/var/lib/dockershim/sandbox:rw
     - /var/lib/kubelet/:/var/lib/kubelet:rw
     - /etc/kubernetes/manifests:/etc/kubernetes/manifests
-    - /home/stack/Dev/go-workspace/src/github.com/google/cadvisor:/cadvisor
 
 kube-proxy:
   image: gcr.io/google_containers/hyperkube-amd64:v1.3.0

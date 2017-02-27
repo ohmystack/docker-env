@@ -23,7 +23,6 @@ kubelet:
     - /sys:/sys:rw
     - /var/lib/docker/:/var/lib/docker:rw
     - /var/lib/kubelet/:/var/lib/kubelet:rw
-    # - /usr/bin/docker:/usr/bin/docker
     - /etc/kubernetes/manifests:/etc/kubernetes/manifests
 
 kube-proxy:
