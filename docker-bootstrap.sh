@@ -35,6 +35,7 @@ start_daemon() {
 		dockerd \
 			-H ${BOOTSTRAP_SOCK} \
 			-p ${BOOTSTRAP_PID} \
+                        --config-file "" \
 			--iptables=false \
 			--ip-masq=false \
 			--bridge=none \
