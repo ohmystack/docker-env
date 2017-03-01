@@ -1,5 +1,5 @@
 kubelet:
-  image: gcr.io/google_containers/hyperkube-amd64:v1.3.0
+  image: gcr.io/google_containers/hyperkube-amd64:v1.5.1
   privileged: true
   net: "host"
   pid: "host"
@@ -28,7 +28,7 @@ kubelet:
     - /etc/kubernetes/manifests:/etc/kubernetes/manifests
 
 kube-proxy:
-  image: gcr.io/google_containers/hyperkube-amd64:v1.3.0
+  image: gcr.io/google_containers/hyperkube-amd64:v1.5.1
   privileged: true
   net: "host"
   pid: "host"

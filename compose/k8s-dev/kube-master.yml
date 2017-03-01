@@ -1,5 +1,5 @@
 kube-apiserver:
-  image: gcr.io/google_containers/hyperkube-amd64:v1.3.0
+  image: gcr.io/google_containers/hyperkube-amd64:v1.5.1
   privileged: true
   pid: host
   net: host
@@ -24,7 +24,7 @@ kube-apiserver:
     - /srv/sshproxy:/srv/sshproxy
 
 kube-controller-manager:
-  image: gcr.io/google_containers/hyperkube-amd64:v1.3.0
+  image: gcr.io/google_containers/hyperkube-amd64:v1.5.1
   privileged: true
   pid: host
   net: host
@@ -47,7 +47,7 @@ kube-controller-manager:
     - /etc/pki:/etc/pki
 
 kube-scheduler:
-  image: gcr.io/google_containers/hyperkube-amd64:v1.3.0
+  image: gcr.io/google_containers/hyperkube-amd64:v1.5.1
   privileged: true
   pid: host
   net: host
