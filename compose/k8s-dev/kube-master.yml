@@ -29,16 +29,16 @@ kube-controller-manager:
   pid: host
   net: host
   command: >
-    /hyperkube controller-manager
+    /kube-controller-manager
     --master=http://${K8S_APISERVER_IP}:${K8S_APISERVER_PORT}
     --cluster-name=k8s
     --cluster-cidr=${K8S_CLUSTER_CIDR}
     --allocate-node-cidrs=false
     --port=10252
     --terminated-pod-gc-threshold=10
-    --v=0
+    --v=2
   volumes:
-    - ./bin/hyperkube:/hyperkube
+    - ./bin/kube-controller-manager:/kube-controller-manager
     - /srv/kubernetes:/srv/kubernetes
     - /var/log/kube-controller-manager.log:/var/log/kube-controller-manager.log
     - /etc/ssl:/etc/ssl
