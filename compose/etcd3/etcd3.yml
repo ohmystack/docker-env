@@ -1,11 +1,10 @@
 etcd3:
-  image: quay.io/coreos/etcd:v3.0.15
+  image: quay.io/coreos/etcd:v3.2.9
   command: >
     etcd
     --listen-client-urls http://0.0.0.0:4003
     --advertise-client-urls http://${HOST_IP}:4003
     --data-dir /var/etcd3/data
-    --proxy 'on'
   ports:
     - 4003:4003
   volumes:
