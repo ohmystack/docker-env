@@ -16,3 +16,12 @@ etcd3:
     - 4004:4004
   volumes:
     - /var/etcd3/data:/var/etcd3/data
+
+etcd-browser:
+  image: soyking/e3w:latest
+  volumes:
+    - ./files/config.default.ini:/app/conf/config.default.ini
+  links:
+    - etcd3
+  ports:
+    - 4005:8080
